@@ -1,0 +1,7 @@
+{
+  "rewrites": [
+    { "source": "/calendar.ics", "destination": "/api/calendar?type=all" },
+    { "source": "/classes.ics",  "destination": "/api/calendar?type=classes" },
+    { "source": "/events.ics",   "destination": "/api/calendar?type=events" }
+  ]
+}

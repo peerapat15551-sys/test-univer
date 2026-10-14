@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ตารางเรียน & กิจกรรมมหาลัย</title>
+<meta name="theme-color" content="#2b2d9c">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;500;600;700&display=swap">
+<style>
+:root{--bg:#f6f5fb;--card:#fff;--ink:#1b1c4a;--mute:#6b6d94;--line:#e4e3f2;--pri:#3a3dbf;--pri-soft:#e8e8fb;--acc:#ff7a1a;--acc-soft:#ffeadb;--on-acc:#2a1300}
+@media (prefers-color-scheme:dark){:root{--bg:#0f1030;--card:#191a4a;--ink:#ececff;--mute:#9a9cd0;--line:#2b2d6b;--pri:#8b8dff;--pri-soft:#26286a;--acc:#ff8a33;--acc-soft:#3c2a24;color-scheme:dark}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 15px/1.5 Prompt,system-ui,sans-serif;padding-bottom:calc(96px + env(safe-area-inset-bottom,0px))}
+.hero{background:#2b2d9c;color:#fff;padding:calc(28px + env(safe-area-inset-top,0px)) 18px 64px;border-radius:0 0 28px 28px}
+.hero-in{max-width:640px;margin:0 auto}
+.hero h1{margin:0;font-size:24px;font-weight:700}
+.hero p{margin:2px 0 0;opacity:.8;font-size:13px}
+main{max-width:640px;margin:-44px auto 0;padding:0 14px}
+.next{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+.n{background:var(--card);border-radius:16px;padding:12px 14px;box-shadow:0 6px 20px rgba(27,28,74,.12);border-top:4px solid var(--pri)}
+.n.e{border-top-color:var(--acc)}
+.n small{color:var(--mute);font-size:12px;display:block}
+.n b{font-weight:600;line-height:1.3;display:block;margin-top:2px}
+.tabs{display:flex;background:var(--pri-soft);padding:4px;border-radius:14px;margin-bottom:14px}
+.tabs button{flex:1;border:0;background:none;color:var(--mute);font:500 15px Prompt,sans-serif;padding:10px;border-radius:11px;cursor:pointer}
+.tabs button[aria-selected=true]{background:var(--card);color:var(--ink);box-shadow:0 2px 6px rgba(27,28,74,.15)}
+button:focus-visible,a:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.day{margin:18px 2px 8px;font-weight:600;display:flex;gap:8px;align-items:center}
+.pill{background:var(--acc);color:var(--on-acc);font-size:12px;font-weight:600;padding:1px 9px;border-radius:99px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:12px;margin-bottom:10px;display:flex;gap:12px}
+.blk{min-width:58px;border-radius:12px;text-align:center;padding:8px 0;align-self:flex-start;background:var(--pri-soft);color:var(--pri)}
+.blk.e{background:var(--acc-soft);color:var(--acc)}
+.blk b{display:block;font-size:19px;line-height:1.15;font-weight:700}
+.blk span{font-size:12px}
+.info{flex:1;min-width:0}
+.info>b{display:block;font-weight:600;line-height:1.35}
+.meta{color:var(--mute);font-size:13px}
+.add{display:inline-block;margin-top:8px;font-size:13px;font-weight:500;text-decoration:none;color:var(--pri);border:1px solid var(--pri);padding:4px 12px;border-radius:99px}
+.add.e{color:var(--acc);border-color:var(--acc)}
+.chips{display:flex;gap:6px;overflow-x:auto;margin-bottom:12px;padding-bottom:2px}
+.chips button{flex:none;border:1px solid var(--line);background:var(--card);color:var(--ink);font:400 13px Prompt,sans-serif;padding:5px 13px;border-radius:99px;cursor:pointer}
+.chips button[aria-pressed=true]{background:var(--acc);border-color:var(--acc);color:var(--on-acc);font-weight:600}
+.empty{text-align:center;color:var(--mute);padding:30px 0}
+.bar{position:fixed;left:0;right:0;bottom:0;padding:10px 14px calc(10px + env(safe-area-inset-bottom,0px));background:linear-gradient(transparent,var(--bg) 30%)}
+.bar button{display:block;width:100%;max-width:640px;margin:0 auto;border:0;background:var(--acc);color:var(--on-acc);font:600 16px Prompt,sans-serif;padding:14px;border-radius:16px;cursor:pointer;box-shadow:0 8px 22px rgba(255,122,26,.4)}
+.ov{position:fixed;inset:0;background:rgba(10,10,40,.55);display:none;align-items:flex-end;justify-content:center;z-index:9}
+.ov.on{display:flex}
+.sh{background:var(--card);width:100%;max-width:640px;border-radius:24px 24px 0 0;padding:20px 18px calc(20px + env(safe-area-inset-bottom,0px))}
+.sh h2{margin:0 0 4px;font-size:18px}
+.sh p{margin:0 0 14px;color:var(--mute);font-size:13px}
+.opt{display:block;width:100%;text-align:left;text-decoration:none;color:var(--ink);background:var(--pri-soft);border:0;border-radius:14px;padding:12px 14px;margin-bottom:8px;font:500 15px Prompt,sans-serif;cursor:pointer}
+.opt small{display:block;font-weight:400;color:var(--mute);font-size:12px}
+.opt.main{background:var(--acc);color:var(--on-acc)}
+.opt.main small{color:var(--on-acc);opacity:.8}
+.close{width:100%;border:0;background:none;color:var(--mute);font:400 14px Prompt,sans-serif;padding:8px;cursor:pointer}
+</style>
+</head>
+<body>
+<header class="hero"><div class="hero-in"><h1 id="title">กำลังโหลด...</h1><p id="sub"></p></div></header>
+<main>
+  <div class="next"><div class="n"><small>วันนี้</small><b id="n1">-</b></div><div class="n e"><small>กิจกรรมถัดไป</small><b id="n2">-</b></div></div>
+  <div class="tabs" role="tablist"><button role="tab" id="t1" aria-selected="true">ตารางเรียน</button><button role="tab" id="t2" aria-selected="false">กิจกรรม</button></div>
+  <div id="view"></div>
+</main>
+<div class="bar"><button id="all">เพิ่มทั้งหมดลงปฏิทิน</button></div>
+
+<div class="ov" id="ov" role="dialog" aria-modal="true" aria-labelledby="oh">
+  <div class="sh">
+    <h2 id="oh">เพิ่มลงปฏิทินของคุณ</h2>
+    <p>เพิ่มครั้งเดียว ทุกวิชาและกิจกรรมเข้าปฏิทิน และอัปเดตตามมหาลัยอัตโนมัติ</p>
+    <a class="opt main" id="o-web" href="#">iPhone / iPad / Mac<small>เปิดปฏิทินแล้วกดสมัครรับ (Subscribe)</small></a>
+    <a class="opt" id="o-g" href="#" target="_blank" rel="noopener">Google Calendar<small>เปิดหน้าเพิ่มปฏิทิน แล้วกดยืนยัน</small></a>
+    <a class="opt" id="o-dl" href="/calendar.ics" download="uni-calendar.ics">ดาวน์โหลดไฟล์ .ics<small>นำเข้าครั้งเดียว ไม่อัปเดตอัตโนมัติ</small></a>
+    <button class="opt" id="o-cp">คัดลอกลิงก์ปฏิทิน<small>ไปวางในแอปปฏิทินอื่นเอง</small></button>
+    <button class="close" id="o-x">ปิด</button>
+  </div>
+</div>
+
+<script>
+const DAYS=["","จันทร์","อังคาร","พุธ","พฤหัสบดี","ศุกร์","เสาร์","อาทิตย์"];
+const MON=["ม.ค.","ก.พ.","มี.ค.","เม.ย.","พ.ค.","มิ.ย.","ก.ค.","ส.ค.","ก.ย.","ต.ค.","พ.ย.","ธ.ค."];
+const $=s=>document.querySelector(s), esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const D=s=>new Date(s+"T00:00:00"), ymd=d=>d.getFullYear()+String(d.getMonth()+1).padStart(2,"0")+String(d.getDate()).padStart(2,"0");
+const hm=t=>t.replace(":","")+"00", TODAY=(()=>{const d=new Date();d.setHours(0,0,0,0);return d})();
+let DATA, tab=1, filter="ทั้งหมด";
+
+function gcal(o){const p=new URLSearchParams({action:"TEMPLATE",text:o.text,details:o.details||"",location:o.location||"",dates:o.dates,ctz:"Asia/Bangkok"});if(o.recur)p.set("recur",o.recur);return "https://calendar.google.com/calendar/render?"+p}
+function firstDay(dow){const d=D(DATA.term.start);while((d.getDay()||7)!==dow)d.setDate(d.getDate()+1);return d}
+function classLink(c){const day=ymd(firstDay(c.day));return gcal({text:c.code+" "+c.name,details:c.teacher,location:c.room,dates:day+"T"+hm(c.from)+"/"+day+"T"+hm(c.to),recur:"RRULE:FREQ=WEEKLY;UNTIL="+DATA.term.end.replace(/-/g,"")+"T235959Z"})}
+function eventLink(e){const s=D(e.date);if(e.allday){const x=D(e.to||e.date);x.setDate(x.getDate()+1);return gcal({text:e.title,location:e.place,dates:ymd(s)+"/"+ymd(x)})}return gcal({text:e.title,location:e.place,dates:ymd(s)+"T"+hm(e.from)+"/"+ymd(s)+"T"+hm(e.to)})}
+const isPast=e=>D(e.to&&e.allday?e.to:e.date)<TODAY;
+
+function renderClasses(){
+  let h="";const dow=TODAY.getDay()||7;
+  for(let d=1;d<=7;d++){
+    const list=DATA.classes.filter(c=>c.day===d).sort((a,b)=>a.from.localeCompare(b.from));if(!list.length)continue;
+    h+=`<div class="day">${DAYS[d]}${d===dow?'<span class="pill">วันนี้</span>':""}</div>`+list.map(c=>`<div class="card"><div class="blk"><b>${c.from}</b><span>ถึง ${c.to}</span></div><div class="info"><b>${esc(c.name)}</b><div class="meta">${esc(c.code)} · ${esc(c.room)} · ${esc(c.teacher)}</div><a class="add" href="${classLink(c)}" target="_blank" rel="noopener">เพิ่มลง Google Calendar · ซ้ำทุกสัปดาห์</a></div></div>`).join("");
+  }
+  return h||'<div class="empty">ยังไม่มีตารางเรียน</div>';
+}
+function renderEvents(){
+  const types=["ทั้งหมด",...new Set(DATA.events.map(e=>e.type))];
+  let h='<div class="chips">'+types.map(t=>`<button data-f="${esc(t)}" aria-pressed="${t===filter}">${esc(t)}</button>`).join("")+"</div>";
+  const list=DATA.events.filter(e=>filter==="ทั้งหมด"||e.type===filter).sort((a,b)=>a.date.localeCompare(b.date));
+  h+=list.map(e=>{const d=D(e.date),past=isPast(e),when=e.allday?(e.to&&e.to!==e.date?"หลายวัน":"ทั้งวัน"):e.from+"–"+e.to;
+    return `<div class="card" style="${past?"opacity:.5":""}"><div class="blk e"><b>${d.getDate()}</b><span>${MON[d.getMonth()]}</span></div><div class="info"><b>${esc(e.title)}</b><div class="meta">${when} · ${esc(e.place)} · ${esc(e.type)}</div>${past?"":`<a class="add e" href="${eventLink(e)}" target="_blank" rel="noopener">เพิ่มลง Google Calendar</a>`}</div></div>`}).join("");
+  return list.length?h:h+'<div class="empty">ไม่มีกิจกรรมในหมวดนี้</div>';
+}
+function render(){
+  $("#t1").setAttribute("aria-selected",tab===1);$("#t2").setAttribute("aria-selected",tab===2);
+  $("#view").innerHTML=tab===1?renderClasses():renderEvents();
+  document.querySelectorAll("[data-f]").forEach(b=>b.onclick=()=>{filter=b.dataset.f;render()});
+}
+function summary(){
+  const dow=TODAY.getDay()||7,n=DATA.classes.filter(c=>c.day===dow).sort((a,b)=>a.from.localeCompare(b.from));
+  $("#n1").textContent=n.length?`เรียน ${n.length} วิชา เริ่ม ${n[0].from}`:"ไม่มีเรียน";
+  const e=DATA.events.filter(e=>!isPast(e)).sort((a,b)=>a.date.localeCompare(b.date))[0];
+  $("#n2").textContent=e?`${e.title} · อีก ${Math.max(0,Math.round((D(e.date)-TODAY)/864e5))} วัน`:"ยังไม่มี";
+}
+
+/* ปุ่มเพิ่มทั้งหมด: ลิงก์สมัครรับปฏิทินจาก /calendar.ics */
+const FEED=location.host+"/calendar.ics";
+$("#o-web").href="webcal://"+FEED;
+$("#o-g").href="https://calendar.google.com/calendar/r?cid=webcal://"+FEED;
+$("#all").onclick=()=>$("#ov").classList.add("on");
+$("#o-x").onclick=()=>$("#ov").classList.remove("on");
+$("#ov").onclick=e=>{if(e.target.id==="ov")$("#ov").classList.remove("on")};
+document.addEventListener("keydown",e=>{if(e.key==="Escape")$("#ov").classList.remove("on")});
+$("#o-cp").onclick=async()=>{const b=$("#o-cp");try{await navigator.clipboard.writeText("https://"+FEED);b.firstChild.textContent="คัดลอกแล้ว ✓"}catch(e){b.firstChild.textContent="https://"+FEED}};
+
+$("#t1").onclick=()=>{tab=1;render()};$("#t2").onclick=()=>{tab=2;render()};
+fetch("data.json").then(r=>r.json()).then(d=>{
+  DATA=d;$("#title").textContent=d.university;$("#sub").textContent=d.term.name;summary();render();
+}).catch(()=>{$("#view").innerHTML='<div class="empty">โหลดข้อมูลไม่สำเร็จ ลองรีเฟรชอีกครั้ง</div>'});
+</script>
+</body>
+</html>
